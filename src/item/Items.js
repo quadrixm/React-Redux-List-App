@@ -23,46 +23,56 @@ class Items extends Component {
         this.handleFilterNameChange = this.handleFilterNameChange.bind(this);
         this.handleFilterStartTimeChange = this.handleFilterStartTimeChange.bind(this);
         this.handleFilterEndTimeChange = this.handleFilterEndTimeChange.bind(this);
-        this.filterData = this.filterData.bind(this)
+        this.getFilteredData = this.getFilteredData.bind(this)
     }
 
-    filterData(data) {
-
+    getFilteredData(name, start, end) {
+        let newItems = [];
+        if (start && end ) {
+            const endTime = new Date(end);
+            const startTime = new Date(start);
+            newItems = this.data.filter(item => (item.date >= startTime && item.date <= endTime && item.id.includes(name)))
+        } else if (start) {
+            const startTime = new Date(start);
+            newItems = this.data.filter(item => (item.date >= startTime  && item.id.includes(name)))
+        } else if (end ) {
+            const endTime = new Date(end);
+            newItems = this.data.filter(item => (item.date <= endTime  && item.id.includes(name)))
+        } else {
+            newItems = this.data.filter(item => (item.id.includes(name)))
+        }
+        return newItems;
     }
 
     handleFilterNameChange(e) {
         const inputVal = e.target.value;
-        let newItems = this.data.filter(item => (item.id.includes(inputVal)))
+        let newItems = this.getFilteredData(inputVal, this.state.filterStartTime, this.state.filterEndTime);
         this.setState({filterName: inputVal, items: newItems})
     }
 
     handleFilterStartTimeChange(e) {
         const inputVal = e.target.value;
-        const startTime = new Date(inputVal);
-        console.log(inputVal)
-        console.log(startTime)
-        let newItems
-        if (this.state.filterEndTime) {
-            const endTime = new Date(this.state.filterEndTime)
-            newItems = this.data.filter(item => (item.date >= startTime && item.date <= endTime && item.id.includes(this.state.filterName)))
-        } else {
-            newItems = this.data.filter(item => (item.date >= startTime && item.id.includes(this.state.filterName)))
-        }
+        // const startTime = new Date(inputVal);
+        let newItems = this.getFilteredData(this.state.filterName, inputVal, this.state.filterEndTime);
+        // if (this.state.filterEndTime) {
+        //     const endTime = new Date(this.state.filterEndTime)
+        //     newItems = this.data.filter(item => (item.date >= startTime && item.date <= endTime && item.id.includes(this.state.filterName)))
+        // } else {
+        //     newItems = this.data.filter(item => (item.date >= startTime && item.id.includes(this.state.filterName)))
+        // }
         this.setState({filterStartTime: inputVal, items: newItems})
     }
 
     handleFilterEndTimeChange(e) {
         const inputVal = e.target.value;
-        const endTime = new Date(inputVal);
-        console.log(inputVal)
-        console.log(endTime)
-        let newItems;
-        if (this.state.filterStartTime) {
-            const startTime = new Date(this.state.filterStartTime);
-            newItems = this.data.filter(item => (item.date >= startTime && item.date <= endTime && item.id.includes(this.state.filterName)))
-        } else {
-            newItems = this.data.filter(item => (item.date <= endTime  && item.id.includes(this.state.filterName)))
-        }
+        // const endTime = new Date(inputVal);
+        let newItems = this.getFilteredData(this.state.filterName, this.state.filterStartTime, inputVal);
+        // if (this.state.filterStartTime) {
+        //     const startTime = new Date(this.state.filterStartTime);
+        //     newItems = this.data.filter(item => (item.date >= startTime && item.date <= endTime && item.id.includes(this.state.filterName)))
+        // } else {
+        //     newItems = this.data.filter(item => (item.date <= endTime  && item.id.includes(this.state.filterName)))
+        // }
         this.setState({filterEndTime: inputVal, items: newItems})
     }
 
