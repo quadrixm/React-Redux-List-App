@@ -27,21 +27,29 @@ class Items extends Component {
     }
 
     getFilteredData(name, start, end) {
-        let newItems = [];
-        if (start && end ) {
-            const endTime = new Date(end);
-            const startTime = new Date(start);
-            newItems = this.data.filter(item => (item.date >= startTime && item.date <= endTime && item.name.includes(name)))
-        } else if (start) {
-            const startTime = new Date(start);
-            newItems = this.data.filter(item => (item.date >= startTime  && item.name.includes(name)))
-        } else if (end ) {
-            const endTime = new Date(end);
-            newItems = this.data.filter(item => (item.date <= endTime  && item.name.includes(name)))
-        } else {
-            newItems = this.data.filter(item => (item.name.includes(name)))
-        }
-        return newItems;
+        // let newItems = [];
+        // if (start && end ) {
+        //     const endTime = new Date(end);
+        //     const startTime = new Date(start);
+        //     newItems = this.data.filter(item => (item.date >= startTime && item.date <= endTime && item.name.includes(name)))
+        // } else if (start) {
+        //     const startTime = new Date(start);
+        //     newItems = this.data.filter(item => (item.date >= startTime  && item.name.includes(name)))
+        // } else if (end ) {
+        //     const endTime = new Date(end);
+        //     newItems = this.data.filter(item => (item.date <= endTime  && item.name.includes(name)))
+        // } else {
+        //     newItems = this.data.filter(item => (item.name.includes(name)))
+        // }
+        // return newItems;
+        //
+        // OR
+        //
+        return this.data.filter(
+            item => ((start ? item.date >= new Date(start) : true)
+                && (end ? item.date <= new Date(end): true)
+                && item.name.includes(name))
+        );
     }
 
     handleFilterNameChange(e) {
@@ -52,27 +60,13 @@ class Items extends Component {
 
     handleFilterStartTimeChange(e) {
         const inputVal = e.target.value;
-        // const startTime = new Date(inputVal);
         let newItems = this.getFilteredData(this.state.filterName, inputVal, this.state.filterEndTime);
-        // if (this.state.filterEndTime) {
-        //     const endTime = new Date(this.state.filterEndTime)
-        //     newItems = this.data.filter(item => (item.date >= startTime && item.date <= endTime && item.id.includes(this.state.filterName)))
-        // } else {
-        //     newItems = this.data.filter(item => (item.date >= startTime && item.id.includes(this.state.filterName)))
-        // }
         this.setState({filterStartTime: inputVal, items: newItems})
     }
 
     handleFilterEndTimeChange(e) {
         const inputVal = e.target.value;
-        // const endTime = new Date(inputVal);
         let newItems = this.getFilteredData(this.state.filterName, this.state.filterStartTime, inputVal);
-        // if (this.state.filterStartTime) {
-        //     const startTime = new Date(this.state.filterStartTime);
-        //     newItems = this.data.filter(item => (item.date >= startTime && item.date <= endTime && item.id.includes(this.state.filterName)))
-        // } else {
-        //     newItems = this.data.filter(item => (item.date <= endTime  && item.id.includes(this.state.filterName)))
-        // }
         this.setState({filterEndTime: inputVal, items: newItems})
     }
 
@@ -80,7 +74,7 @@ class Items extends Component {
         return (
             <Container>
                 <Row>
-                    
+
                 </Row>
                 <Row>
                     <Col lg={4}>
