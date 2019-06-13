@@ -9,10 +9,10 @@ class Items extends Component {
     constructor(props) {
         super(props);
         this.data = [
-            {id: 'abc', date: new Date('2019-06-12'), quantity: 2},
-            {id: 'xcv', date: new Date('2019-06-13'), quantity: 2},
-            {id: 'xnv', date: new Date('2019-06-14'), quantity: 4},
-            {id: 'xqv', date: new Date('2019-06-15'), quantity: 4},
+            {name: 'abc', date: new Date('2019-06-12'), quantity: 2},
+            {name: 'xcv', date: new Date('2019-06-13'), quantity: 2},
+            {name: 'xnv', date: new Date('2019-06-14'), quantity: 4},
+            {name: 'xqv', date: new Date('2019-06-15'), quantity: 4},
         ];
 
         this.state = {
@@ -31,15 +31,15 @@ class Items extends Component {
         if (start && end ) {
             const endTime = new Date(end);
             const startTime = new Date(start);
-            newItems = this.data.filter(item => (item.date >= startTime && item.date <= endTime && item.id.includes(name)))
+            newItems = this.data.filter(item => (item.date >= startTime && item.date <= endTime && item.name.includes(name)))
         } else if (start) {
             const startTime = new Date(start);
-            newItems = this.data.filter(item => (item.date >= startTime  && item.id.includes(name)))
+            newItems = this.data.filter(item => (item.date >= startTime  && item.name.includes(name)))
         } else if (end ) {
             const endTime = new Date(end);
-            newItems = this.data.filter(item => (item.date <= endTime  && item.id.includes(name)))
+            newItems = this.data.filter(item => (item.date <= endTime  && item.name.includes(name)))
         } else {
-            newItems = this.data.filter(item => (item.id.includes(name)))
+            newItems = this.data.filter(item => (item.name.includes(name)))
         }
         return newItems;
     }
@@ -80,19 +80,35 @@ class Items extends Component {
         return (
             <Container>
                 <Row>
+                    
+                </Row>
+                <Row>
                     <Col lg={4}>
-                        <input placeholder={'Filter name'} value={this.state.filterName} onChange={this.handleFilterNameChange}/>
+                        Name: <input placeholder={'Filter name'} value={this.state.filterName} onChange={this.handleFilterNameChange}/>
                     </Col>
                     <Col lg={4}>
-                        <input type={'date'} value={this.state.filterStartTime} onChange={this.handleFilterStartTimeChange}/>
+                        Start Date: <input type={'date'} value={this.state.filterStartTime} onChange={this.handleFilterStartTimeChange}/>
                     </Col>
                     <Col lg={4}>
-                        <input type={'date'} value={this.state.filterEndTime} onChange={this.handleFilterEndTimeChange}/>
+                        End Date: <input type={'date'} value={this.state.filterEndTime} onChange={this.handleFilterEndTimeChange}/>
+                    </Col>
+                </Row>
+
+
+                <Row>
+                    <Col lg={4}>
+                        <b>Name</b>
+                    </Col>
+                    <Col lg={4}>
+                        <b>Date</b>
+                    </Col>
+                    <Col lg={4}>
+                        <b>Quantity</b>
                     </Col>
                 </Row>
 
                 {this.state.items.map((item, key) =>
-                    <Item data={item} key={item.id}/>
+                    <Item data={item} key={item.name}/>
                 )}
             </Container>
         )
