@@ -1,5 +1,6 @@
 # React List App with filter option
 
+Simple React App to list an list of items and filter those data.
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
