@@ -1,12 +1,13 @@
 import {FETCH_ITEMS, FILTER_ITEMS} from "./types";
 
+const data = [
+    {name: 'abc', date: new Date('2019-06-12'), quantity: 2},
+    {name: 'xcv', date: new Date('2019-06-13'), quantity: 2},
+    {name: 'xnv', date: new Date('2019-06-14'), quantity: 4},
+    {name: 'xqv', date: new Date('2019-06-15'), quantity: 4},
+];
+
 export const fetchData = () => dispatch => {
-    const data = [
-        {name: 'abc', date: new Date('2019-06-12'), quantity: 2},
-        {name: 'xcv', date: new Date('2019-06-13'), quantity: 2},
-        {name: 'xnv', date: new Date('2019-06-14'), quantity: 4},
-        {name: 'xqv', date: new Date('2019-06-15'), quantity: 4},
-    ];
 
     dispatch({
         type: FETCH_ITEMS,
@@ -18,7 +19,7 @@ export const fetchData = () => dispatch => {
 }
 
 
-export const filteredData = (data, name, start, end) => dispatch => {
+export const filteredData = (name, start, end) => dispatch => {
     dispatch({
         type: FILTER_ITEMS,
         items: data.filter(
