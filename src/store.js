@@ -2,10 +2,7 @@ import {applyMiddleware, compose, createStore} from 'redux'
 import rootReducer from './reducers'
 import thunk from "redux-thunk";
 
-const initialState = {
-    items: [],
-    filterName: ''
-}
+const initialState = {}
 
 const middleware = [thunk]
 

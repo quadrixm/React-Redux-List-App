@@ -7,7 +7,9 @@ const initialState = {
     filterEndTime: '',
 }
 
-const dataFilter = (state = initialState, action) => {
+export default (state = initialState, action) => {
+    console.log('dispatched');
+    console.log(state)
     if (action.type === FILTER_ITEMS) {
         return {
             ...state,
@@ -26,5 +28,3 @@ const dataFilter = (state = initialState, action) => {
         return state
     }
 };
-
-export default dataFilter
