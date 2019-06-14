@@ -3,5 +3,5 @@ import dataFilter from "./dataFilter";
 
 
 export default combineReducers({
-    dataFilter: dataFilter
+    data: dataFilter
 })

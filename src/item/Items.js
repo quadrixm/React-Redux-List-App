@@ -94,10 +94,10 @@ Items.propTypes = {
 }
 
 const mapStateToProps = (state) => ({
-    items: state.dataFilter.items,
-    filterName: state.dataFilter.filterName,
-    filterStartTime: state.dataFilter.filterStartTime,
-    filterEndTime: state.dataFilter.filterEndTime
+    items: state.data.items,
+    filterName: state.data.filterName,
+    filterStartTime: state.data.filterStartTime,
+    filterEndTime: state.data.filterEndTime,
 })
 
 const mapDispatchToProps = { fetchData, filteredData }
