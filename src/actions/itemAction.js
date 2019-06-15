@@ -48,7 +48,7 @@ export const uploadFiles = (allItems) => dispatch => {
 
     allItems.map((item, key) => {
             if (item.file) {
-                formData.append('' + item.key, item.file);
+                formData.append('' + item.id, item.file);
             }
         }
     )
