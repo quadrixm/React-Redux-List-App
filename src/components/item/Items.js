@@ -65,7 +65,7 @@ class Items extends Component {
                 </Row>
 
                 {this.props.items.map((item, key) =>
-                    <Item data={item} key={item.name}/>
+                    <Item data={item} key={key}/>
                 )}
 
             </Container>

@@ -1,10 +1,10 @@
-import React, { Component } from 'react'
+import React, {Component} from 'react'
 import Col from "react-bootstrap/Col";
 import Row from "react-bootstrap/Row";
-import axios from "axios";
 import {addFile} from "../../actions/itemAction";
 import {connect} from "react-redux";
 import PropTypes from 'prop-types';
+import Img from 'react-image';
 
 class Item extends Component {
 
@@ -19,17 +19,23 @@ class Item extends Component {
     }
 
     render() {
-        let photoItem = <input type="file" name="photo" onChange={this.handleOnFileChange} multiple />
-        if (this.props.data.photo) {
-            photoItem = <img width="100" height="100" src="{this.props.data.photo}"/>
-        }
+        // let photoItem = <input type="file" name="photo" onChange={this.handleOnFileChange} multiple/>
+        // if (this.props.data.photo) {
+        //     photoItem = <div>
+        //         <Img width="100" height="100" src={this.props.data.photo}/>
+        //         <input type="file" name="photo" onChange={this.handleOnFileChange} multiple/>
+        //     </div>
+        // }
         return (
             <Row>
                 <Col lg={3}>{this.props.data.name}</Col>
                 <Col lg={3}>{this.props.data.date}</Col>
                 <Col lg={3}>{this.props.data.quantity}</Col>
                 <Col lg={3}>
-                    {photoItem}
+                    <div>
+                        <Img width="100" height="100" src={this.props.data.photo}/>
+                        <input type="file" name="photo" onChange={this.handleOnFileChange} multiple/>
+                    </div>
                 </Col>
             </Row>
         )
@@ -37,14 +43,13 @@ class Item extends Component {
 }
 
 
-
 Item.propTypes = {
     addFile: PropTypes.func.isRequired,
 }
 
-const mapDispatchToProps = { addFile }
+const mapDispatchToProps = {addFile}
 
 export default connect(
     null,
     mapDispatchToProps
-) (Item)
+)(Item)

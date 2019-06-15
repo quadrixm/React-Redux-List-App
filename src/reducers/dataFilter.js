@@ -1,4 +1,4 @@
-import {ADD_FILE, FETCH_ITEMS, FILTER_ITEMS} from "../actions/types";
+import {ADD_FILE, FETCH_ITEMS, FILE_UPLOAD, FILTER_ITEMS} from "../actions/types";
 
 const initialState = {
     items: [],
@@ -38,6 +38,43 @@ export default (state = initialState, action) => {
         return {
             ...state,
             items: items,
+        };
+    } else if (action.type === FILE_UPLOAD) {
+        let newItems = [];
+        // let newItems = Array.from(state.items);
+        let newFilterItems = [];
+        // let newFilterItems = Array.from(state.filterItems);
+        const uploadIds = action.uploadIds
+        for (let i in state.items) {
+            let item = {...state.items[i]}
+            for (let key in uploadIds) {
+                if (item.id == key) {
+                    console.log(uploadIds[key])
+                    // newItems.push(state.items[i])
+                    item.photo = uploadIds[key];
+                    item.quantity = 0;
+                }
+                newItems.push(item)
+            }
+        }
+        for (let i in state.filterItems) {
+            let item = {...state.filterItems[i]}
+            for (let key in uploadIds) {
+                if (item.id == key) {
+                    console.log(uploadIds[key])
+                    // newItems.push(state.items[i])
+                    item.photo = uploadIds[key];
+                    item.quantity = 0;
+                }
+                newFilterItems.push(item)
+            }
+        }
+        console.log('FILE_UPLOAD')
+        console.log(uploadIds)
+        return {
+            ...state,
+            items: newItems,
+            filterItems: newFilterItems,
         };
     } else {
         return state

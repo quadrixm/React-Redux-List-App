@@ -58,10 +58,12 @@ export const uploadFiles = (allItems) => dispatch => {
             'Content-Type': 'multipart/form-data'
         }
     }).then(response => {
-        dispatch({
-            type: FILE_UPLOAD,
-        })
-        console.log(response)
+        if (response.status === 200 && response.data) {
+            dispatch({
+                type: FILE_UPLOAD,
+                uploadIds: response.data,
+            })
+        }
     }).catch(error => {
         console.log(error)
     });
