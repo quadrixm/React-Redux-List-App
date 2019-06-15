@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import Item from "./Item";
 import Container from "react-bootstrap/Container";
 import {connect} from "react-redux";
-import {fetchData} from "../../actions/itemAction";
+import {fetchData, uploadFiles} from "../../actions/itemAction";
 import PropTypes from 'prop-types';
 import FilterForm from "../FilterForm";
 import Row from "react-bootstrap/Row";
@@ -15,10 +15,28 @@ class Items extends Component {
         this.state = {
             items: [],
         };
+
+        this.handleUploadClick = this.handleUploadClick.bind(this)
     }
 
     componentWillMount() {
         this.props.fetchData();
+    }
+
+    handleUploadClick(e) {
+        e.preventDefault();
+        this.props.uploadFiles(this.props.allItems)
+        // const formData = new FormData();
+        // formData.append('files', e.target.files[0]);
+        // axios.post(`http://localhost:8000/upload/`, formData, {
+        //     headers: {
+        //         'Content-Type': 'multipart/form-data'
+        //     }
+        // }).then(response => {
+        //     console.log(response)
+        // }).catch(error => {
+        //     console.log(error)
+        // });
     }
 
     render() {
@@ -42,7 +60,7 @@ class Items extends Component {
                         <b>Quantity</b>
                     </Col>
                     <Col lg={3}>
-                        <b>Photo</b>
+                        <button onClick={this.handleUploadClick}>Upload</button>
                     </Col>
                 </Row>
 
@@ -57,6 +75,7 @@ class Items extends Component {
 
 Items.propTypes = {
     fetchData: PropTypes.func.isRequired,
+    uploadFiles: PropTypes.func.isRequired,
     items: PropTypes.array.isRequired,
     allItems: PropTypes.array.isRequired,
 }
@@ -66,7 +85,7 @@ const mapStateToProps = (state) => ({
     allItems: state.data.items,
 })
 
-const mapDispatchToProps = { fetchData }
+const mapDispatchToProps = { fetchData, uploadFiles }
 
 export default connect(
     mapStateToProps,

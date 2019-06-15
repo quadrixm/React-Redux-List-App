@@ -1,4 +1,4 @@
-import {FETCH_ITEMS, FILTER_ITEMS} from "../actions/types";
+import {ADD_FILE, FETCH_ITEMS, FILTER_ITEMS} from "../actions/types";
 
 const initialState = {
     items: [],
@@ -25,6 +25,19 @@ export default (state = initialState, action) => {
             items: action.items,
             filterItems: action.items,
             filter: action.filter,
+        };
+    } else if (action.type === ADD_FILE) {
+        let items = state.items;
+        const item = action.item
+        for (var i in items) {
+            if (items[i].id === item.id) {
+                items[i].file = action.file;
+                break; //Stop this loop, we found it!
+            }
+        }
+        return {
+            ...state,
+            items: items,
         };
     } else {
         return state

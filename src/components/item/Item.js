@@ -2,6 +2,10 @@ import React, { Component } from 'react'
 import Col from "react-bootstrap/Col";
 import Row from "react-bootstrap/Row";
 import axios from "axios";
+import {addFile} from "../../actions/itemAction";
+import {connect} from "react-redux";
+import PropTypes from 'prop-types';
+
 class Item extends Component {
 
     constructor(props) {
@@ -11,17 +15,7 @@ class Item extends Component {
 
     handleOnFileChange(e) {
         e.preventDefault();
-        const formData = new FormData();
-        formData.append('files', e.target.files);
-        axios.post(`http://localhost:8000/items/upload`, formData, {
-            headers: {
-                'Content-Type': 'multipart/form-data'
-            }
-        }).then(response => {
-            console.log(response)
-        }).catch(error => {
-            console.log(error)
-        });
+        this.props.addFile(e.target.files[0], this.props.data)
     }
 
     render() {
@@ -41,4 +35,16 @@ class Item extends Component {
         )
     }
 }
-export default Item
+
+
+
+Item.propTypes = {
+    addFile: PropTypes.func.isRequired,
+}
+
+const mapDispatchToProps = { addFile }
+
+export default connect(
+    null,
+    mapDispatchToProps
+) (Item)
