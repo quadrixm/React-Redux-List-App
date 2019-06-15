@@ -26,40 +26,22 @@ class FilterForm extends Component {
                 endTime: this.state.filterEndTime,
             }
             console.log(filter)
-            this.props.filteredData(filter)
+            this.props.filteredData(this.props.allItems, filter)
         });
     }
 
     render() {
         return (
             <Row>
-                <Row>
-
-                </Row>
-                <Row>
-                    <Col lg={4}>
-                        Name: <input placeholder={'Filter name'} name="filterName" value={this.state.filterName} onChange={this.handleOnChange}/>
-                    </Col>
-                    <Col lg={4}>
-                        Start Date: <input type={'date'} name="filterStartTime" value={this.state.filterStartTime} onChange={this.handleOnChange}/>
-                    </Col>
-                    <Col lg={4}>
-                        End Date: <input type={'date'} name="filterEndTime" value={this.state.filterEndTime} onChange={this.handleOnChange}/>
-                    </Col>
-                </Row>
-
-
-                <Row>
-                    <Col lg={4}>
-                        <b>Name</b>
-                    </Col>
-                    <Col lg={4}>
-                        <b>Date</b>
-                    </Col>
-                    <Col lg={4}>
-                        <b>Quantity</b>
-                    </Col>
-                </Row>
+                <Col lg={4}>
+                    Name: <input placeholder={'Filter name'} name="filterName" value={this.state.filterName} onChange={this.handleOnChange}/>
+                </Col>
+                <Col lg={4}>
+                    Start Date: <input type={'date'} name="filterStartTime" value={this.state.filterStartTime} onChange={this.handleOnChange}/>
+                </Col>
+                <Col lg={4}>
+                    End Date: <input type={'date'} name="filterEndTime" value={this.state.filterEndTime} onChange={this.handleOnChange}/>
+                </Col>
             </Row>
         )
     }

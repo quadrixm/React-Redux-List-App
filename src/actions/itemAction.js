@@ -1,22 +1,26 @@
 import {FETCH_ITEMS, FILTER_ITEMS} from "./types";
-
-const data = [
-    {name: 'abc', date: new Date('2019-06-12'), quantity: 2},
-    {name: 'xcv', date: new Date('2019-06-13'), quantity: 2},
-    {name: 'xnv', date: new Date('2019-06-14'), quantity: 4},
-    {name: 'xqv', date: new Date('2019-06-15'), quantity: 4},
-];
+import axios from 'axios';
 
 export const fetchData = () => dispatch => {
-    dispatch({
-        type: FETCH_ITEMS,
-        items: data,
-        filter: {}
-    })
+    axios.get('http://localhost:8000/items/')
+        .then(function (response) {
+            if (response.status === 200 && response.data.results) {
+                dispatch({
+                    type: FETCH_ITEMS,
+                    allItems: response.data.results,
+                    items: response.data.results,
+                    filter: {}
+                })
+            }
+            console.log(response);
+        })
+        .catch(function (error) {
+            console.log(error);
+        });
 }
 
 
-export const filteredData = (filter) => dispatch => {
+export const filteredData = (data, filter) => dispatch => {
     dispatch({
         type: FILTER_ITEMS,
         items: data.filter(
@@ -26,6 +30,4 @@ export const filteredData = (filter) => dispatch => {
         ),
         filter: filter,
     })
-    console.log('filtered')
-    console.log(filter)
 }
