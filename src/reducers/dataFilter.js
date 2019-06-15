@@ -2,27 +2,29 @@ import {FETCH_ITEMS, FILTER_ITEMS} from "../actions/types";
 
 const initialState = {
     items: [],
-    filterName: '',
-    filterStartTime: '',
-    filterEndTime: '',
+    filterItems: [],
+    filter: {
+        name: '',
+        startTime: '',
+        endTime: '',
+    },
 }
 
 export default (state = initialState, action) => {
     console.log('dispatched');
-    console.log(state)
+    console.log(action)
     if (action.type === FILTER_ITEMS) {
         return {
             ...state,
-            items: action.items,
-            filterName: action.filterName,
-            filterStartTime: action.filterStartTime,
-            filterEndTime: action.filterEndTime,
+            filterItems: action.items,
+            filter: action.filter,
         };
     } else if (action.type === FETCH_ITEMS) {
         return {
             ...state,
             items: action.items,
-            filterName: action.filterName,
+            filterItems: action.items,
+            filter: action.filter,
         };
     } else {
         return state

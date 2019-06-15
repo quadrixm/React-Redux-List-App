@@ -8,28 +8,24 @@ const data = [
 ];
 
 export const fetchData = () => dispatch => {
-
     dispatch({
         type: FETCH_ITEMS,
         items: data,
-        filterName: ''
+        filter: {}
     })
-
-    console.log('fetched')
 }
 
 
-export const filteredData = (name, start, end) => dispatch => {
+export const filteredData = (filter) => dispatch => {
     dispatch({
         type: FILTER_ITEMS,
         items: data.filter(
-            item => ((start ? item.date >= new Date(start) : true)
-                && (end ? item.date <= new Date(end): true)
-                && item.name.includes(name))
+            item => ((filter.startTime ? item.date >= new Date(filter.startTime) : true)
+                && (filter.endTime ? item.date <= new Date(filter.endTime): true)
+                && item.name.includes(filter.name))
         ),
-        filterName: name,
-        filterStartTime: start,
-        filterEndTime: end
+        filter: filter,
     })
     console.log('filtered')
+    console.log(filter)
 }
