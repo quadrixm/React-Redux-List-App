@@ -24,19 +24,7 @@ class Items extends Component {
     }
 
     handleUploadClick(e) {
-        e.preventDefault();
         this.props.uploadFiles(this.props.allItems)
-        // const formData = new FormData();
-        // formData.append('files', e.target.files[0]);
-        // axios.post(`http://localhost:8000/upload/`, formData, {
-        //     headers: {
-        //         'Content-Type': 'multipart/form-data'
-        //     }
-        // }).then(response => {
-        //     console.log(response)
-        // }).catch(error => {
-        //     console.log(error)
-        // });
     }
 
     render() {

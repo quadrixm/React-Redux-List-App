@@ -10,6 +10,16 @@ const initialState = {
     },
 }
 
+const updateItems = function (items, getCondition, updateItem) {
+    for (let i in items) {
+        let item = {...items[i]}
+        if (getCondition(item)) {
+            updateItem(item)
+            items[i] = item
+        }
+    }
+}
+
 export default (state = initialState, action) => {
     console.log('dispatched');
     console.log(action)
@@ -27,48 +37,67 @@ export default (state = initialState, action) => {
             filter: action.filter,
         };
     } else if (action.type === ADD_FILE) {
-        let items = state.items;
-        const item = action.item
-        for (var i in items) {
-            if (items[i].id === item.id) {
-                items[i].file = action.file;
-                break; //Stop this loop, we found it!
-            }
-        }
+        let items = Array.from(state.items);
+        let filterItems = Array.from(state.filterItems);
+        updateItems(items, (item) => item.id === action.item.id, (item) => item.file = action.file)
+        updateItems(filterItems, (item) => item.id === action.item.id, (item) => item.file = action.file)
         return {
             ...state,
             items: items,
+            filterItems: filterItems,
         };
     } else if (action.type === FILE_UPLOAD) {
-        let newItems = [];
-        // let newItems = Array.from(state.items);
-        let newFilterItems = [];
-        // let newFilterItems = Array.from(state.filterItems);
+        let newItems = Array.from(state.items);
+        let newFilterItems = Array.from(state.filterItems);
         const uploadIds = action.uploadIds
-        for (let i in state.items) {
-            let item = {...state.items[i]}
-            for (let key in uploadIds) {
-                if (item.id == key) {
-                    console.log(uploadIds[key])
-                    // newItems.push(state.items[i])
-                    item.photo = uploadIds[key];
-                    item.quantity = 0;
+
+        updateItems(newItems, (item) => {
+            for (let id in uploadIds) {
+                if (item.id == id) {
+                    return true;
                 }
-                newItems.push(item)
             }
-        }
-        for (let i in state.filterItems) {
-            let item = {...state.filterItems[i]}
-            for (let key in uploadIds) {
-                if (item.id == key) {
-                    console.log(uploadIds[key])
-                    // newItems.push(state.items[i])
-                    item.photo = uploadIds[key];
-                    item.quantity = 0;
+            return false;
+        }, (item) => {
+            item.photo = uploadIds[item.id];
+            console.log(uploadIds[item.id])
+            item.quantity = 0;
+        })
+
+        updateItems(newFilterItems, (item) => {
+            for (let id in uploadIds) {
+                if (item.id == id) {
+                    return true;
                 }
-                newFilterItems.push(item)
             }
-        }
+            return false;
+        }, (item) => {
+            item.photo = uploadIds[item.id];
+            item.file = undefined;
+        })
+
+        // const updateItems = function (items, uploadIds, onFound) {
+        //     for (let i in items) {
+        //         let item = {...items[i]}
+        //         for (let id in uploadIds) {
+        //             if (item.id == id) {
+        //                 onFound(item, i, id)
+        //             }
+        //         }
+        //     }
+        // }
+        //
+        // updateItems(newItems, uploadIds, (item, itemIndex, uploadId) => {
+        //     item.photo = uploadIds[uploadId];
+        //     item.quantity = 0;
+        //     newItems[itemIndex] = item
+        // })
+        //
+        // updateItems(newFilterItems, uploadIds, (item, itemIndex, uploadId) => {
+        //     item.photo = uploadIds[uploadId];
+        //     item.quantity = 0;
+        //     newFilterItems[itemIndex] = item
+        // })
         console.log('FILE_UPLOAD')
         console.log(uploadIds)
         return {

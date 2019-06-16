@@ -16,6 +16,7 @@ class Item extends Component {
     handleOnFileChange(e) {
         e.preventDefault();
         this.props.addFile(e.target.files[0], this.props.data)
+        e.target.value = '';
     }
 
     render() {
@@ -35,6 +36,7 @@ class Item extends Component {
                     <div>
                         <Img width="100" height="100" src={this.props.data.photo}/>
                         <input type="file" name="photo" onChange={this.handleOnFileChange} multiple/>
+                        <span>{this.props.data.file ? this.props.data.file.name : ''}</span>
                     </div>
                 </Col>
             </Row>
