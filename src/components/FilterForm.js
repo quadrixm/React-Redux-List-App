@@ -26,7 +26,7 @@ class FilterForm extends Component {
                 endTime: this.state.filterEndTime,
             }
             console.log(filter)
-            this.props.filteredData(this.props.allItems, filter)
+            this.props.filteredData(this.props.items, filter)
         });
     }
 

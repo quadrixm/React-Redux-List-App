@@ -2,7 +2,6 @@ import {ADD_FILE, FETCH_ITEMS, FILE_UPLOAD, FILTER_ITEMS} from "../actions/types
 
 const initialState = {
     items: [],
-    filterItems: [],
     filter: {
         name: '',
         startTime: '',
@@ -37,45 +36,28 @@ export default (state = initialState, action) => {
             && item.name.includes(action.filter.name), (item) =>  item.hidden = false, (item) =>  item.hidden = true)
         return {
             ...state,
-            filterItems: items,
+            items: items,
             filter: action.filter,
         };
     } else if (action.type === FETCH_ITEMS) {
         return {
             ...state,
             items: action.items,
-            filterItems: action.items,
             filter: action.filter,
         };
     } else if (action.type === ADD_FILE) {
         let items = Array.from(state.items);
-        let filterItems = Array.from(state.filterItems);
         updateItems(items, (item) => item.id === action.item.id, (item) => item.file = action.file)
-        updateItems(filterItems, (item) => item.id === action.item.id, (item) => item.file = action.file)
         return {
             ...state,
             items: items,
-            filterItems: filterItems,
         };
     } else if (action.type === FILE_UPLOAD) {
-        let newItems = Array.from(state.items);
-        let newFilterItems = Array.from(state.filterItems);
+        let items = Array.from(state.items);
+        // let newFilterItems = Array.from(state.filterItems);
         const uploadIds = action.uploadIds
 
-        updateItems(newItems, (item) => {
-            for (let id in uploadIds) {
-                if (item.id == id) {
-                    return true;
-                }
-            }
-            return false;
-        }, (item) => {
-            item.photo = uploadIds[item.id];
-            console.log(uploadIds[item.id])
-            item.quantity = 0;
-        })
-
-        updateItems(newFilterItems, (item) => {
+        updateItems(items, (item) => {
             for (let id in uploadIds) {
                 if (item.id == id) {
                     return true;
@@ -87,34 +69,11 @@ export default (state = initialState, action) => {
             item.file = undefined;
         })
 
-        // const updateItems = function (items, uploadIds, onFound) {
-        //     for (let i in items) {
-        //         let item = {...items[i]}
-        //         for (let id in uploadIds) {
-        //             if (item.id == id) {
-        //                 onFound(item, i, id)
-        //             }
-        //         }
-        //     }
-        // }
-        //
-        // updateItems(newItems, uploadIds, (item, itemIndex, uploadId) => {
-        //     item.photo = uploadIds[uploadId];
-        //     item.quantity = 0;
-        //     newItems[itemIndex] = item
-        // })
-        //
-        // updateItems(newFilterItems, uploadIds, (item, itemIndex, uploadId) => {
-        //     item.photo = uploadIds[uploadId];
-        //     item.quantity = 0;
-        //     newFilterItems[itemIndex] = item
-        // })
         console.log('FILE_UPLOAD')
         console.log(uploadIds)
         return {
             ...state,
-            items: newItems,
-            filterItems: newFilterItems,
+            items: items,
         };
     } else {
         return state

@@ -7,7 +7,6 @@ export const fetchData = () => dispatch => {
             if (response.status === 200 && response.data.results) {
                 dispatch({
                     type: FETCH_ITEMS,
-                    allItems: response.data.results,
                     items: response.data.results,
                     filter: {}
                 })
@@ -38,11 +37,11 @@ export const addFile = (file, item) => dispatch => {
 }
 
 
-export const uploadFiles = (allItems) => dispatch => {
+export const uploadFiles = (items) => dispatch => {
 
     const formData = new FormData();
 
-    allItems.map((item, key) => {
+    items.map((item, key) => {
             if (item.file) {
                 formData.append('' + item.id, item.file);
             }

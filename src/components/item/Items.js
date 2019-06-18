@@ -24,7 +24,7 @@ class Items extends Component {
     }
 
     handleUploadClick(e) {
-        this.props.uploadFiles(this.props.allItems)
+        this.props.uploadFiles(this.props.items)
     }
 
     render() {
@@ -33,7 +33,7 @@ class Items extends Component {
 
                 <hr/>
 
-                <FilterForm allItems={this.props.allItems} />
+                <FilterForm items={this.props.items} />
 
                 <hr/>
 
@@ -65,12 +65,10 @@ Items.propTypes = {
     fetchData: PropTypes.func.isRequired,
     uploadFiles: PropTypes.func.isRequired,
     items: PropTypes.array.isRequired,
-    allItems: PropTypes.array.isRequired,
 }
 
 const mapStateToProps = (state) => ({
-    items: state.data.filterItems,
-    allItems: state.data.items,
+    items: state.data.items,
 })
 
 const mapDispatchToProps = { fetchData, uploadFiles }
