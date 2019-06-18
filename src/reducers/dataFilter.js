@@ -10,12 +10,19 @@ const initialState = {
     },
 }
 
-const updateItems = function (items, getCondition, updateItem) {
+const updateItems = function (items, getCondition, onTrue, onFalse = undefined) {
     for (let i in items) {
         let item = {...items[i]}
         if (getCondition(item)) {
-            updateItem(item)
-            items[i] = item
+            if (onTrue) {
+                onTrue(item)
+                items[i] = item
+            }
+        } else {
+            if (onFalse) {
+                onFalse(item)
+                items[i] = item
+            }
         }
     }
 }
@@ -24,9 +31,13 @@ export default (state = initialState, action) => {
     console.log('dispatched');
     console.log(action)
     if (action.type === FILTER_ITEMS) {
+        let items = Array.from(state.items);
+        updateItems(items, (item) => (action.filter.startTime ? new Date(item.date) >= new Date(action.filter.startTime) : true)
+            && (action.filter.endTime ? new Date(item.date) <= new Date(action.filter.endTime) : true)
+            && item.name.includes(action.filter.name), (item) =>  item.hidden = false, (item) =>  item.hidden = true)
         return {
             ...state,
-            filterItems: action.items,
+            filterItems: items,
             filter: action.filter,
         };
     } else if (action.type === FETCH_ITEMS) {

@@ -20,13 +20,9 @@ class Item extends Component {
     }
 
     render() {
-        // let photoItem = <input type="file" name="photo" onChange={this.handleOnFileChange} multiple/>
-        // if (this.props.data.photo) {
-        //     photoItem = <div>
-        //         <Img width="100" height="100" src={this.props.data.photo}/>
-        //         <input type="file" name="photo" onChange={this.handleOnFileChange} multiple/>
-        //     </div>
-        // }
+        if (this.props.data.hidden) {
+            return null;
+        }
         return (
             <Row>
                 <Col lg={3}>{this.props.data.name}</Col>

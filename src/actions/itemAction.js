@@ -23,11 +23,7 @@ export const fetchData = () => dispatch => {
 export const filteredData = (data, filter) => dispatch => {
     dispatch({
         type: FILTER_ITEMS,
-        items: data.filter(
-            item => ((filter.startTime ? new Date(item.date) >= new Date(filter.startTime) : true)
-                && (filter.endTime ? new Date(item.date) <= new Date(filter.endTime) : true)
-                && item.name.includes(filter.name))
-        ),
+        items: data,
         filter: filter,
     })
 }
